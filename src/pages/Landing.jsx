@@ -2,15 +2,25 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export default function Home() {
+export default function Landing() {
   return (
-    <div className="min-h-screen flex flex-col md:flex-row items-center justify-between bg-gradient-to-r from-[#002c3a] to-[#004d66] text-white px-8 py-12">
+    <div className="min-h-screen flex flex-row items-center justify-between text-white px-8 py-12 relative overflow-hidden">
+      {/* Left Solid Background */}
+      <div className="absolute left-0 top-0 bottom-0 w-1/2 h-full -z-10">
+        <div className="w-full h-full bg-[#002c3ae1]"></div>
+      </div>
+
+      {/* Right Background Image */}
+      <div className="absolute right-0 top-0 bottom-0 w-1/2 h-full -z-10">
+        <img src="/img/homeside.png" alt="Background" className="w-full h-full object-cover" />
+      </div>
+
       {/* Left Content */}
-      <div className="md:w-1/2  max-w-xl">
+      <div className="md:w-1/2 max-w-xl z-10">
         {/* Logos */}
         <div className="flex items-center gap-8 mb-6">
           <img src="/img/left2.png" alt="aKinder Volunteer Logo" className="h-12" />
-          <img src="/img/right2.png" alt="Legacy Response Logo" className="h-40" />
+          <img src="/img/right2 (2).png" alt="Legacy Response Logo" className="h-25 bg-auto" />
         </div>
 
         {/* Heading */}
@@ -44,17 +54,15 @@ export default function Home() {
         {/* Button to Login Page */}
         <Link
           to="/login"
-          className="mt-6 w-full block text-center py-2 bg-green-500 text-white rounded-full font-semibold hover:bg-green-800"
+          className="mt-6 w-[70%] block text-center py-2 bg-green-500 text-white rounded-full font-semibold hover:bg-green-800 min-w-16 h-9"
         >
           REGISTER NOW!
         </Link>
         <p className="mt-4 ">Thank You</p>
       </div>
       
-      {/* Right Image */}
-    <div className="md:w-1/2 flex justify-center items-center mt-8 md:mt-0 h-full">
-
-</div>
+      {/* Right Content (empty for layout) */}
+      <div className="md:w-1/2 flex justify-center items-center mt-8 md:mt-0 h-full relative z-10"></div>
 
     </div>
   );
