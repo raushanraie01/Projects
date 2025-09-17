@@ -8,15 +8,24 @@ import { auth } from "../firebase-config.js";
 export default function LoginPage() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: "", password: "" });
+  const [touched, setTouched] = useState({ email: false, password: false });
+  const [showErrors, setShowErrors] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleBlur = (e) => {
+    setTouched({ ...touched, [e.target.name]: true });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("User logged in:", formData);
-    // TODO: Add login API integration
+    setShowErrors(true);
+    if (!formData.email || !formData.password) {
+      return;
+    }
+    // ...existing code...
     signInWithEmailAndPassword(auth, formData.email, formData.password)
       .then((userCredential) => {
         // Signed in
@@ -34,18 +43,17 @@ export default function LoginPage() {
   return (
     <div className="flex h-screen">
       {/* Left Images */}
-  <div className="w-1/2 h-screen p-2">
-    <img
-      src="\img\loginPage.png"
-      alt="Help"
-      className="object-cover w-full h-full rounded-lg"
-    />
-  </div>
-
+      <div className="w-2/3 h-screen">
+        <img
+          src="\img\loginPage.png"
+          alt="Help"
+          className="object-cover w-full h-full rounded-lg"
+        />
+      </div>
 
       {/* Right Login Form */}
-      <div className="w-1/2 flex items-center justify-center bg-gradient-to-br from-blue-500 to-teal-500">
-        <div className="bg-white rounded-2xl shadow-lg p-10 w-96">
+      <div className="w-1/3 flex items-center justify-center bg-gradient-to-br from-blue-300 to-teal-400">
+  <div className="rounded-2xl shadow-lg p-10 w-96">
           {/* Logo */}
           <div className="flex items-center justify-center mb-6">
             <img
@@ -59,26 +67,37 @@ export default function LoginPage() {
           </div>
 
           {/* Login Form */}
-          <form onSubmit={handleSubmit}  className="space-y-4">
-            <input
-              type="email"
-              name="email"
-              placeholder="Email Address"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
-
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <input
+                type="email"
+                name="email"
+                placeholder="Email Address"
+                value={formData.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                required
+                className="w-full px-4 py-2 rounded-full bg-white border-none outline-none focus:border-none focus:outline-none placeholder:font-semibold"
+              />
+              {showErrors && !formData.email && (
+                <div className="text-red-600 text-sm mt-1">Required</div>
+              )}
+            </div>
+            <div>
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                required
+                className="w-full px-4 py-2 rounded-full bg-white border-none outline-none focus:border-none focus:outline-none placeholder:font-semibold"
+              />
+              {showErrors && !formData.password && (
+                <div className="text-red-600 text-sm mt-1">Required</div>
+              )}
+            </div>
             <button
               type="submit"
               className="w-full py-2 bg-blue-600 text-white rounded-full font-semibold hover:bg-blue-700"

@@ -2,10 +2,10 @@
 
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home.jsx";
 import LoginPage from "./pages/Login.jsx";
 import SignupPage from "./pages/SignUp.jsx";
 import VolunteerHome from "./pages/VolunteerHome.jsx";
+import Landing from "./pages/Landing.jsx";
 
 
 function App() {
@@ -13,7 +13,7 @@ function App() {
     <Router>
       <Routes>
         {/* Home Page */}
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Landing />} />
 
         {/* Login Page */}
         <Route path="/login" element={<LoginPage />} />

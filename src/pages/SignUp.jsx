@@ -2,6 +2,10 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
+import { auth } from '../firebase-config';
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { db } from '../firebase-config';
+import { collection, addDoc } from "firebase/firestore";
 
 export default function SignUp() {
   const [formData, setFormData] = useState({
@@ -18,6 +22,8 @@ export default function SignUp() {
     password: "",
     confirmPassword: ""
   });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({...formData, [e.target.name]: e.target.value });
@@ -29,12 +35,50 @@ export default function SignUp() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Registering user:", formData);
-    // TODO: Add API integration
+    setError("");
+    setLoading(true);
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match");
+      setLoading(false);
+      return;
+    }
+    createUserWithEmailAndPassword(auth, formData.email, formData.password)
+      .then(async (userCredential) => {
+        await addDoc(collection(db, "users"), {
+          uid: userCredential.user.uid,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          phone: formData.phone,
+          age: formData.age,
+          address1: formData.address1,
+          address2: formData.address2,
+          city: formData.city,
+          state: formData.state,
+          zip: formData.zip
+        });
+        setLoading(false);
+        alert("Signup successful!");
+        // Optionally redirect or clear form
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
   };
 
   return (
     <div className="relative min-h-screen flex items-center justify-center">
+      {error && (
+        <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-red-100 text-red-700 px-4 py-2 rounded shadow z-20">
+          {error}
+        </div>
+      )}
+      {loading && (
+        <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-blue-100 text-blue-700 px-4 py-2 rounded shadow z-20">
+          Signing up...
+        </div>
+      )}
       {/* Background Image with Blur */}
       <div className="absolute inset-0">
         <img
