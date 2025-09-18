@@ -6,19 +6,22 @@ import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  // apiKey: "AIzaSyDaQgMSk_oLIFhXVWRaaNmRaq6pC9mX0TY",
-  // authDomain: "project-e1498.firebaseapp.com",
-  // projectId: "project-e1498",
-  // storageBucket: "project-e1498.firebasestorage.app",
-  // messagingSenderId: "1099075592009",
-  // appId: "1:1099075592009:web:6957f56dd02a2c1f0ec498"
-    apiKey: "AIzaSyB14bShCi4mzodIb-on5QdWLRbWagalFpk",
-  authDomain: "abhishekapp-90dc4.firebaseapp.com",
-  projectId: "abhishekapp-90dc4",
-  storageBucket: "abhishekapp-90dc4.firebasestorage.app",
-  messagingSenderId: "552781196601",
-  appId: "1:552781196601:web:0801122d1d64734bf2cce8",
-  measurementId: "G-PQFDENZWYD"
+  //Raushan's Firebase Config
+  apiKey: "AIzaSyARyaHkMpurl2jiGrnmvZzkv_Vgg0tf9J4",
+  authDomain: "democheckapp-c1335.firebaseapp.com",
+  projectId: "democheckapp-c1335",
+  storageBucket: "democheckapp-c1335.firebasestorage.app",
+  messagingSenderId: "831070666331",
+  appId: "1:831070666331:web:72d3c53f0660dda1e8897e",
+  measurementId: "G-4MS6892SZ8"
+  //Abhishek's Firebase Config
+  //   apiKey: "AIzaSyB14bShCi4mzodIb-on5QdWLRbWagalFpk",
+  // authDomain: "abhishekapp-90dc4.firebaseapp.com",
+  // projectId: "abhishekapp-90dc4",
+  // storageBucket: "abhishekapp-90dc4.firebasestorage.app",
+  // messagingSenderId: "552781196601",
+  // appId: "1:552781196601:web:0801122d1d64734bf2cce8",
+  // measurementId: "G-PQFDENZWYD"
 };
 
 // Initialize Firebase

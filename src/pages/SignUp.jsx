@@ -2,12 +2,14 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
-import { auth } from '../firebase-config';
+import { auth,db } from '../firebase-config';
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { db } from '../firebase-config';
-import { collection, addDoc } from "firebase/firestore";
+import { useNavigate } from 'react-router-dom';
+// import { db } from '../firebase-config';
+import { doc, setDoc } from "firebase/firestore";
 
 export default function SignUp() {
+   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -33,39 +35,66 @@ export default function SignUp() {
     setFormData({...formData, phone: value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match");
-      setLoading(false);
-      return;
-    }
-    createUserWithEmailAndPassword(auth, formData.email, formData.password)
-      .then(async (userCredential) => {
-        await addDoc(collection(db, "users"), {
-          uid: userCredential.user.uid,
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          email: formData.email,
-          phone: formData.phone,
-          age: formData.age,
-          address1: formData.address1,
-          address2: formData.address2,
-          city: formData.city,
-          state: formData.state,
-          zip: formData.zip
-        });
-        setLoading(false);
-        alert("Signup successful!");
-        // Optionally redirect or clear form
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
-  };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError("");
+  setLoading(true);
+
+  if (formData.password !== formData.confirmPassword) {
+    setError("Passwords do not match");
+    setLoading(false);
+    return;
+  }
+
+  try {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      formData.email,
+      formData.password
+    );
+
+    await setDoc(doc(db, "users", userCredential.user.uid), {
+      uid: userCredential.user.uid,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      phone: formData.phone,
+      age: formData.age,
+      address1: formData.address1,
+      address2: formData.address2,
+      city: formData.city,
+      state: formData.state,
+      zip: formData.zip,
+    });
+
+    setLoading(false);
+    alert("Signup successful!");
+
+    // Clear form
+    setFormData({
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      age: "",
+      address1: "",
+      address2: "",
+      city: "",
+      state: "",
+      zip: "",
+      password: "",
+      confirmPassword: "",
+    });
+
+    // ✅ Redirect to login (if using react-router-dom v6+)
+    navigate("/login");
+
+  } catch (err) {
+    setError(err.message);
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="relative min-h-screen flex items-center justify-center">
@@ -190,9 +219,9 @@ export default function SignUp() {
               className="border px-4 py-2 rounded-lg w-full"
             >
               <option value="">State*</option>
-              <option value="NY">New York</option>
-              <option value="CA">California</option>
-              <option value="TX">Texas</option>
+              <option value="NY">Bihar</option>
+              <option value="CA">UP</option>
+              <option value="TX">Delhi</option>
             </select> 
             <input
               type="text"
