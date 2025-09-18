@@ -4,7 +4,12 @@ import { Link } from "react-router-dom";
 
 export default function Landing() {
   return (
-    <div className="min-h-screen flex flex-row items-center justify-between text-white px-8 py-12 relative overflow-hidden">
+    // <div className="min-h-screen flex flex-row items-center justify-between text-white px-8 py-12 relative overflow-hidden">
+      <div
+  className="min-h-screen flex flex-row items-center justify-between text-white px-8 py-12 relative overflow-hidden bg-cover bg-center"
+  style={{ backgroundImage: "url('/img/background2.jpg')" }}
+>
+
       {/* Left Solid Background */}
       <div className="absolute left-0 top-0 bottom-0 w-1/2 h-full -z-10">
         <div className="w-full h-full bg-[#002c3ae1]"></div>
@@ -12,7 +17,7 @@ export default function Landing() {
 
       {/* Right Background Image */}
       <div className="absolute right-0 top-0 bottom-0 w-1/2 h-full -z-10">
-        <img src="/img/homeside.png" alt="Background" className="w-full h-full object-cover" />
+        
       </div>
 
       {/* Left Content */}
